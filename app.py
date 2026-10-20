@@ -18,7 +18,6 @@ def get_last_index(data):
     return 0
   return max(item['index'] for item in data)
 
-
 def save_data(data):
   with open('data.json', 'w') as file:
     json.dump(data, file, indent=4)
@@ -44,3 +43,18 @@ def add_expense():
 
   data.append(expense)
   save_data(data)
+
+def read_data():
+  data = fetch_data()
+  if not data:
+    print('No data on file.')
+    return
+
+  print('---Your Expenses---')
+  for item in data:
+    item_amount = item['amount'] * 0.01
+    print(f'Index: {item['index']}')
+    print(f'Amount: {item_amount}')
+    print(f'Category: {item['category']}')
+    print(f'Description: {item['description']}')
+    print('--------------------------------')
