@@ -43,8 +43,10 @@ def add_expense():
 
   data.append(expense)
   save_data(data)
+  return
 
 def read_data():
+
   data = fetch_data()
   if not data:
     print('No data on file.')
@@ -58,3 +60,70 @@ def read_data():
     print(f'Category: {item['category']}')
     print(f'Description: {item['description']}')
     print('--------------------------------')
+  return
+
+def update_data():
+  data = fetch_data()
+
+  if not data:
+    print('There is no data on file.')
+    return
+
+  while True:
+    print('Whats the index of the item you want to update? (Type "exit" to exit)')
+    uI = input('> ').lower()
+
+    if uI == 'exit':
+      return
+
+    try:
+      working_index = int(uI)
+      break
+    except ValueError:
+      print('Invalid Input. Try Again!')
+
+  for item in data:
+    if item['index'] == working_index:
+      working_data = item
+      break
+
+  fetch_updates(working_data)
+  save_data(data)
+
+
+def fetch_updates(working_data):
+
+  print(f'Current category: {working_data["category"]}')
+  print('Whats the new category? (press "enter" to continue)')
+  uI = input('> ')
+  if uI:
+    working_data['category'] = uI
+
+  print(f'Current description: {working_data["description"]}')
+  print('Whats the new description? (press "enter" to continue)')
+  uI = input('> ')
+  if uI:
+    working_data['description'] = uI
+
+  while True:
+    print(f'Current amount: {working_data["amount"]}')
+    print('Whats the new amount? (press "enter" to continue)')
+    uI = input('> ')
+    if uI:
+      try:
+        uI = float(uI)
+        uI = uI * 100
+        uI = round(uI)
+        uI = int(uI)
+        working_data['amount'] = uI
+        break
+      except ValueError:
+        print('Wrong value. Try Again!')
+
+
+  return working_data
+
+
+
+
+
