@@ -55,10 +55,10 @@ def read_data():
   print('---Your Expenses---')
   for item in data:
     item_amount = item['amount'] * 0.01
-    print(f'Index: {item['index']}')
+    print(f'Index: {item["index"]}')
     print(f'Amount: {item_amount}')
-    print(f'Category: {item['category']}')
-    print(f'Description: {item['description']}')
+    print(f'Category: {item["category"]}')
+    print(f'Description: {item["description"]}')
     print('--------------------------------')
   return
 
@@ -70,25 +70,28 @@ def update_data():
     return
 
   while True:
-    print('Whats the index of the item you want to update? (Type "exit" to exit)')
-    uI = input('> ').lower()
+    while True:
+      print('Whats the index of the item you want to update? (Type "exit" to exit)')
+      uI = input('> ').lower()
 
-    if uI == 'exit':
-      return
+      if uI == 'exit':
+        return
 
-    try:
-      working_index = int(uI)
-      break
-    except ValueError:
-      print('Invalid Input. Try Again!')
+      try:
+        working_index = int(uI)
+        break
+      except ValueError:
+        print('Invalid Input. Try Again!')
 
-  for item in data:
-    if item['index'] == working_index:
-      working_data = item
-      break
+    for item in data:
+      if item['index'] == working_index:
+        working_data = item
+        fetch_updates(working_data)
+        save_data(data)
+        return
+    print(f'There is no item with the index {working_index}')
 
-  fetch_updates(working_data)
-  save_data(data)
+
 
 
 def fetch_updates(working_data):
@@ -123,7 +126,31 @@ def fetch_updates(working_data):
 
   return working_data
 
+def delete_data():
+  data = fetch_data()
 
+  if not data:
+    print('There is no data on file.')
+    return
 
+  while True:
+    while True:
+      print('Whats the index of the item you want to delete? (Type "exit" to exit)')
+      uI = input('> ').lower()
 
+      if uI == 'exit':
+        return
+
+      try:
+        working_index = int(uI)
+        break
+      except ValueError:
+        print('Invalid Input. Try Again!')
+
+    for item in data:
+      if item['index'] == working_index:
+        data.remove(item)
+        save_data(data)
+        return
+    print(f'There is no item with the index {working_index}.')
 
