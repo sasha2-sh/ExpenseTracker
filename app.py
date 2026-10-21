@@ -4,7 +4,6 @@
 
 
 import json
-import os
 
 def fetch_data():
   try:
@@ -91,9 +90,6 @@ def update_data():
         return
     print(f'There is no item with the index {working_index}')
 
-
-
-
 def fetch_updates(working_data):
 
   print(f'Current category: {working_data["category"]}')
@@ -153,4 +149,26 @@ def delete_data():
         save_data(data)
         return
     print(f'There is no item with the index {working_index}.')
+
+def get_help():
+  commands = '"add" => Add an expense' \
+  '"read" => Show list of ' \
+  '"remove" => Remove an expense' \
+  '"edit" => Edit an expense'
+  print('List of valid commands:')
+  print(commands)
+
+def main():
+  while True:
+    print('EXPENSE TRACKER')
+    print('===============')
+    print('Welcome to your expense tracker')
+    print('Start your tracking or type "help" for help.')
+    uI = input('> ')
+    if uI == 'help':
+      get_help()
+
+
+
+
 
