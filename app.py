@@ -126,7 +126,6 @@ def read_data():
       print('Invalid option. Try Again!')
       time.sleep(2)
 
-
 def update_data():
   data = fetch_data()
 
@@ -251,6 +250,11 @@ def main():
       add_expense()
     elif uI == 'read':
       read_data()
+    elif uI == 'remove':
+      delete_data()
+    elif uI == 'edit':
+      update_data()
+      
 
 
 
