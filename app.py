@@ -125,7 +125,7 @@ def read_data():
     return
 
 
-  page_size = 3
+  page_size = 2
   total_items = len(data)
   total_pages = (total_items + page_size -1 ) // page_size
   current_page = 0
