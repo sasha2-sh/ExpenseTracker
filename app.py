@@ -316,6 +316,16 @@ def get_help():
     print(commands)
     _ = input('Press Enter to continue...')
 
+def about():
+    about_text = """
+Copyright (c) 2026 Alexandra Folttinyová
+This program is free software under the terms of the GNU General Public License v3.
+See the LICENSE file in the project root for full terms
+    """
+    clear()
+    print(about_text)
+    _ = input('Press Enter to continue...')
+
 def main():
   clear()
   print('Loading...')
@@ -342,6 +352,8 @@ def main():
       delete_data()
     elif uI == 'update' or uI == 'u':
       update_data()
+    elif uI == 'about':
+      about()
     else:
       clear()
       print('Plase Enter a Valid Command.')
