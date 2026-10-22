@@ -272,7 +272,7 @@ def get_help():
 def main():
   clear()
   print('Loading...')
-  time.sleep(random.randint(2,10))
+  time.sleep(random.randint(1,7))
   while True:
     clear()
     print('ExpenseTracker (c)')
