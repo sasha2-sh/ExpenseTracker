@@ -40,6 +40,7 @@ def add_expense():
     else:
       clear()
       print('Please type a category.')
+      time.sleep(2)
 
   while True:
     clear()
@@ -47,14 +48,16 @@ def add_expense():
     amount = input('> ')
     if amount:
       try:
-        amount = int(round(float(amount)))
+        amount = int(round(float(amount)*100))
         break
       except ValueError:
         clear()
-        print('Please enter a VALID amount.')
+        print('Please enter a valid amount.')
+        time.sleep(2)
     else:
       clear()
       print('Please enter an amount.')
+      time.sleep(2)
 
 
   while True:
@@ -66,9 +69,10 @@ def add_expense():
     else:
       clear()
       print('Please enter a description.')
+      time.sleep(2)
 
   
-    index = get_last_index(data) + 1
+  index = get_last_index(data) + 1
 
   expense = {
     'index': index,
@@ -119,7 +123,7 @@ def read_data():
       current_page = (current_page + 1) % total_pages
     elif uI == 'p':
       current_page = (current_page - 1) % total_pages
-    elif uI == 'exit':
+    elif uI == 'exit' or uI == 'e':
       break
     else:
       clear()
@@ -130,22 +134,27 @@ def update_data():
   data = fetch_data()
 
   if not data:
+    clear()
     print('There is no data on file.')
+    time.sleep(3)
     return
 
   while True:
     while True:
+      clear()
       print('Whats the index of the item you want to update? (Type "exit" to exit)')
       uI = input('> ').lower()
 
-      if uI == 'exit':
+      if uI == 'exit' or uI == 'e':
         return
 
       try:
         working_index = int(uI)
         break
       except ValueError:
+        clear()
         print('Invalid Input. Try Again!')
+        time.sleep(2)
 
     for item in data:
       if item['index'] == working_index:
@@ -153,24 +162,30 @@ def update_data():
         fetch_updates(working_data)
         save_data(data)
         return
+    clear()
     print(f'There is no item with the index {working_index}')
+    time.sleep(3)
 
 def fetch_updates(working_data):
 
+  clear()
   print(f'Current category: {working_data["category"]}')
   print('Whats the new category? (press "enter" to continue)')
   uI = input('> ')
   if uI:
     working_data['category'] = uI
 
+  clear()
   print(f'Current description: {working_data["description"]}')
   print('Whats the new description? (press "enter" to continue)')
   uI = input('> ')
   if uI:
     working_data['description'] = uI
 
+
   while True:
-    print(f'Current amount: {working_data["amount"]}')
+    clear()
+    print(f'Current amount: {working_data["amount"]*0.01}')
     print('Whats the new amount? (press "enter" to continue)')
     uI = input('> ')
     if uI:
@@ -182,7 +197,9 @@ def fetch_updates(working_data):
         working_data['amount'] = uI
         break
       except ValueError:
+        clear()
         print('Wrong value. Try Again!')
+        time.sleep(2)
 
 
   return working_data
@@ -191,29 +208,36 @@ def delete_data():
   data = fetch_data()
 
   if not data:
+    clear()
     print('There is no data on file.')
+    time.sleep(2)
     return
 
   while True:
     while True:
+      clear()
       print('Whats the index of the item you want to delete? (Type "exit" to exit)')
       uI = input('> ').lower()
 
-      if uI == 'exit':
+      if uI == 'exit' or uI == 'e':
         return
 
       try:
         working_index = int(uI)
         break
       except ValueError:
+        clear()
         print('Invalid Input. Try Again!')
+        time.sleep(2)
 
     for item in data:
       if item['index'] == working_index:
         data.remove(item)
         save_data(data)
         return
+    clear()
     print(f'There is no item with the index {working_index}.')
+    time.sleep(3)
 
 def get_help():
     commands = """
@@ -241,7 +265,7 @@ def main():
     uI = input('> ')
     if uI == 'help':
       get_help()
-    elif uI == 'exit':
+    elif uI == 'exit' or uI == 'e':
       clear()
       print('Thank You for using ExpenseTracker (c)')
       time.sleep(3)
@@ -254,7 +278,12 @@ def main():
       delete_data()
     elif uI == 'edit':
       update_data()
-      
+    else:
+      clear()
+      print('Plase Enter a Valid Command.')
+      time.sleep(3)
+
+
 
 
 
