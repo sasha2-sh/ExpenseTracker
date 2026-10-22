@@ -37,6 +37,8 @@ def add_expense():
     category = input("> ")
     if category:
       break
+    elif category == 'exit' or category == 'e':
+      return
     else:
       clear()
       print('Please type a category.')
@@ -47,13 +49,16 @@ def add_expense():
     print('Whats the amount?')
     amount = input('> ')
     if amount:
-      try:
-        amount = int(round(float(amount)*100))
-        break
-      except ValueError:
-        clear()
-        print('Please enter a valid amount.')
-        time.sleep(2)
+      if amount == 'exit' or amount == 'e':
+        return
+      else:
+        try:
+          amount = int(round(float(amount)*100))
+          break
+        except ValueError:
+          clear()
+          print('Please enter a valid amount.')
+          time.sleep(2)
     else:
       clear()
       print('Please enter an amount.')
@@ -65,7 +70,10 @@ def add_expense():
     print('Whats the description?')
     description = input('> ')
     if description:
-      break
+      if description == 'exit' or description == 'e':
+        return
+      else:
+        break
     else:
       clear()
       print('Please enter a description.')
@@ -173,14 +181,20 @@ def fetch_updates(working_data):
   print('Whats the new category? (press "enter" to continue)')
   uI = input('> ')
   if uI:
-    working_data['category'] = uI
+    if uI == 'exit' or uI == 'e':
+      return
+    else:
+      working_data['category'] = uI
 
   clear()
   print(f'Current description: {working_data["description"]}')
   print('Whats the new description? (press "enter" to continue)')
   uI = input('> ')
   if uI:
-    working_data['description'] = uI
+    if uI == 'exit' or uI == 'e':
+      return
+    else:
+      working_data['description'] = uI
 
 
   while True:
@@ -189,20 +203,23 @@ def fetch_updates(working_data):
     print('Whats the new amount? (press "enter" to continue)')
     uI = input('> ')
     if uI:
-      try:
-        uI = float(uI)
-        uI = uI * 100
-        uI = round(uI)
-        uI = int(uI)
-        working_data['amount'] = uI
-        break
-      except ValueError:
-        clear()
-        print('Wrong value. Try Again!')
-        time.sleep(2)
+      if uI == 'exit' or uI == 'e':
+        return
+      else:
+        try:
+          uI = float(uI)
+          uI = uI * 100
+          uI = round(uI)
+          uI = int(uI)
+          working_data['amount'] = uI
+          break
+        except ValueError:
+          clear()
+          print('Wrong value. Try Again!')
+          time.sleep(2)
 
 
-  return working_data
+    return working_data
 
 def delete_data():
   data = fetch_data()
@@ -243,8 +260,8 @@ def get_help():
     commands = """
 "add"   => Add an expense
 "read"  => Show list of items on file
-"remove"=> Remove an expense
-"edit"  => Edit an expense
+"delete"=> Remove an expense
+"update"=> Edit an expense
 "exit"  => Use anywhere to go a step back
     """
     clear()
@@ -270,13 +287,13 @@ def main():
       print('Thank You for using ExpenseTracker (c)')
       time.sleep(3)
       break
-    elif uI == 'add':
+    elif uI == 'add' or uI == 'a':
       add_expense()
-    elif uI == 'read':
+    elif uI == 'read' or uI == 'r':
       read_data()
-    elif uI == 'remove':
+    elif uI == 'delete' or uI == 'd':
       delete_data()
-    elif uI == 'edit':
+    elif uI == 'update' or uI == 'u':
       update_data()
     else:
       clear()
