@@ -7,6 +7,7 @@ import json
 import os
 import time
 import random
+from datetime import date, datetime
 
 def clear():
   os.system('clear')
@@ -79,11 +80,32 @@ def add_expense():
       print('Please enter a description.')
       time.sleep(2)
 
+  while True:
+    clear()
+    print('Whats the date of the transaction? (YYYY.MM.DD) (leave blank for today)')
+    transaction_date = input('> ')
+    if transaction_date:
+      if transaction_date == 'exit' or transaction_date == 'e':
+        return
+      else:
+        try:
+          iso_date = datetime.strptime(transaction_date, '%Y.%m.%d').date().isoformat()
+          break
+        except ValueError:
+          clear()
+          print('Please provide a valid date.')
+      
+    else:
+      iso_date = date.today().isoformat()
+      break
+
+
   
   index = get_last_index(data) + 1
 
   expense = {
     'index': index,
+    'date': iso_date,
     'category': category,
     'description': description,
     'amount': amount
@@ -116,10 +138,15 @@ def read_data():
     end_index = start_index + page_size
     current_slice = data[start_index:end_index]
 
+
+
     for item in current_slice:
+      raw_date = item.get("date", "2026-01-01")
+      transaction_date = datetime.strptime(raw_date, '%Y-%m-%d').strftime('%d.%b.%Y').upper()
       item_amount = item['amount'] * 0.01
       print(f'Index: {item["index"]}')
       print(f'Amount: {item_amount}')
+      print(f'Date: {transaction_date}')
       print(f'Category: {item["category"]}')
       print(f'Description: {item["description"]}')
       print('--------------------------------')
@@ -199,6 +226,29 @@ def fetch_updates(working_data):
 
   while True:
     clear()
+    raw_date = working_data.get("date", "2026-01-01")
+    transaction_date = datetime.strptime(raw_date, '%Y-%m-%d').strftime('%d.%b.%Y').upper()
+    print(f'Current Date: {transaction_date}')
+    print('Whats the date of the transaction? (YYYY.MM.DD) (press "enter" to continue)')
+    transaction_date = input('> ')
+    if transaction_date:
+      if transaction_date == 'exit' or transaction_date == 'e':
+        return
+      else:
+        try:
+          iso_date = datetime.strptime(transaction_date, '%Y.%m.%d').date().isoformat()
+          working_data['date'] = iso_date
+          break
+        except ValueError:
+          clear()
+          print('Please provide a valid date.')
+          time.sleep(2)
+    else:
+      break
+
+
+  while True:
+    clear()
     print(f'Current amount: {working_data["amount"]*0.01}')
     print('Whats the new amount? (press "enter" to continue)')
     uI = input('> ')
@@ -269,6 +319,16 @@ def get_help():
     print(commands)
     _ = input('Press Enter to continue...')
 
+def about():
+    about_text = """
+Copyright (c) 2026 Alexandra Folttinyová
+This program is free software under the terms of the GNU General Public License v3.
+See the LICENSE file in the project root for full terms
+    """
+    clear()
+    print(about_text)
+    _ = input('Press Enter to continue...')
+
 def main():
   clear()
   print('Loading...')
@@ -295,6 +355,8 @@ def main():
       delete_data()
     elif uI == 'update' or uI == 'u':
       update_data()
+    elif uI == 'about':
+      about()
     else:
       clear()
       print('Plase Enter a Valid Command.')
@@ -303,5 +365,6 @@ def main():
 
 if __name__ == "__main__":
   main()
+
 
 
